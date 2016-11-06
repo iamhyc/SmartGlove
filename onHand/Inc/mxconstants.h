@@ -38,6 +38,36 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define Thumb_upper_Pin GPIO_PIN_0
+#define Thumb_upper_GPIO_Port GPIOA
+#define Index_upper_Pin GPIO_PIN_1
+#define Index_upper_GPIO_Port GPIOA
+#define Middle_upper_Pin GPIO_PIN_2
+#define Middle_upper_GPIO_Port GPIOA
+#define Ring_Upper_Pin GPIO_PIN_3
+#define Ring_Upper_GPIO_Port GPIOA
+#define Little_Upper_Pin GPIO_PIN_4
+#define Little_Upper_GPIO_Port GPIOA
+#define Thumb_lower_Pin GPIO_PIN_5
+#define Thumb_lower_GPIO_Port GPIOA
+#define Index_Lower_Pin GPIO_PIN_6
+#define Index_Lower_GPIO_Port GPIOA
+#define Middle_lower_Pin GPIO_PIN_7
+#define Middle_lower_GPIO_Port GPIOA
+#define Ring_lower_Pin GPIO_PIN_0
+#define Ring_lower_GPIO_Port GPIOB
+#define Little_lower_Pin GPIO_PIN_1
+#define Little_lower_GPIO_Port GPIOB
+#define MotorBit_Pin GPIO_PIN_2
+#define MotorBit_GPIO_Port GPIOB
+#define JY61_SCL_Pin GPIO_PIN_10
+#define JY61_SCL_GPIO_Port GPIOB
+#define JY61_SDA_Pin GPIO_PIN_11
+#define JY61_SDA_GPIO_Port GPIOB
+#define GY52_SCL_Pin GPIO_PIN_6
+#define GY52_SCL_GPIO_Port GPIOB
+#define GY52_SDA_Pin GPIO_PIN_7
+#define GY52_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

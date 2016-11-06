@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.c
+  * File Name          : TIM.c
   * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  *                      of the TIM instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -33,49 +33,82 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "gpio.h"
+#include "tim.h"
+
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
-/*----------------------------------------------------------------------------*/
-/* Configure GPIO                                                             */
-/*----------------------------------------------------------------------------*/
-/* USER CODE BEGIN 1 */
+TIM_HandleTypeDef htim2;
 
-/* USER CODE END 1 */
-
-/** Configure pins as 
-        * Analog 
-        * Input 
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
-void MX_GPIO_Init(void)
+/* TIM2 init function */
+void MX_TIM2_Init(void)
 {
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_OC_InitTypeDef sConfigOC;
 
-  GPIO_InitTypeDef GPIO_InitStruct;
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 35;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_OC_Init(&htim2);
 
-  /* GPIO Ports Clock Enable */
-  __GPIOD_CLK_ENABLE();
-  __GPIOA_CLK_ENABLE();
-  __GPIOB_CLK_ENABLE();
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(MotorBit_GPIO_Port, MotorBit_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = MotorBit_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  HAL_GPIO_Init(MotorBit_GPIO_Port, &GPIO_InitStruct);
+  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.Pulse = 499;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1);
 
 }
 
-/* USER CODE BEGIN 2 */
+void HAL_TIM_OC_MspInit(TIM_HandleTypeDef* htim_oc)
+{
 
-/* USER CODE END 2 */
+  if(htim_oc->Instance==TIM2)
+  {
+  /* USER CODE BEGIN TIM2_MspInit 0 */
+
+  /* USER CODE END TIM2_MspInit 0 */
+    /* Peripheral clock enable */
+    __TIM2_CLK_ENABLE();
+
+    /* Peripheral interrupt init*/
+    HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM2_IRQn);
+  /* USER CODE BEGIN TIM2_MspInit 1 */
+
+  /* USER CODE END TIM2_MspInit 1 */
+  }
+}
+
+void HAL_TIM_OC_MspDeInit(TIM_HandleTypeDef* htim_oc)
+{
+
+  if(htim_oc->Instance==TIM2)
+  {
+  /* USER CODE BEGIN TIM2_MspDeInit 0 */
+
+  /* USER CODE END TIM2_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __TIM2_CLK_DISABLE();
+
+    /* Peripheral interrupt Deinit*/
+    HAL_NVIC_DisableIRQ(TIM2_IRQn);
+
+  }
+  /* USER CODE BEGIN TIM2_MspDeInit 1 */
+
+  /* USER CODE END TIM2_MspDeInit 1 */
+} 
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

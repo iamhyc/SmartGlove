@@ -36,6 +36,7 @@
 #include "i2c.h"
 
 #include "gpio.h"
+#include "dma.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -43,6 +44,8 @@
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
+DMA_HandleTypeDef hdma_i2c1_rx;
+DMA_HandleTypeDef hdma_i2c2_rx;
 
 /* I2C1 init function */
 void MX_I2C1_Init(void)
@@ -91,13 +94,28 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     PB6     ------> I2C1_SCL
     PB7     ------> I2C1_SDA 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GY52_SCL_Pin|GY52_SDA_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /* Peripheral clock enable */
     __I2C1_CLK_ENABLE();
+
+    /* Peripheral DMA init*/
+  
+    hdma_i2c1_rx.Instance = DMA1_Channel7;
+    hdma_i2c1_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_i2c1_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_i2c1_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_i2c1_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_i2c1_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_i2c1_rx.Init.Mode = DMA_NORMAL;
+    hdma_i2c1_rx.Init.Priority = DMA_PRIORITY_MEDIUM;
+    HAL_DMA_Init(&hdma_i2c1_rx);
+
+    __HAL_LINKDMA(hi2c,hdmarx,hdma_i2c1_rx);
+
   /* USER CODE BEGIN I2C1_MspInit 1 */
 
   /* USER CODE END I2C1_MspInit 1 */
@@ -112,13 +130,28 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     PB10     ------> I2C2_SCL
     PB11     ------> I2C2_SDA 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
+    GPIO_InitStruct.Pin = JY61_SCL_Pin|JY61_SDA_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /* Peripheral clock enable */
     __I2C2_CLK_ENABLE();
+
+    /* Peripheral DMA init*/
+  
+    hdma_i2c2_rx.Instance = DMA1_Channel5;
+    hdma_i2c2_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_i2c2_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_i2c2_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_i2c2_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_i2c2_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_i2c2_rx.Init.Mode = DMA_NORMAL;
+    hdma_i2c2_rx.Init.Priority = DMA_PRIORITY_MEDIUM;
+    HAL_DMA_Init(&hdma_i2c2_rx);
+
+    __HAL_LINKDMA(hi2c,hdmarx,hdma_i2c2_rx);
+
   /* USER CODE BEGIN I2C2_MspInit 1 */
 
   /* USER CODE END I2C2_MspInit 1 */
@@ -140,8 +173,10 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
     PB6     ------> I2C1_SCL
     PB7     ------> I2C1_SDA 
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6|GPIO_PIN_7);
+    HAL_GPIO_DeInit(GPIOB, GY52_SCL_Pin|GY52_SDA_Pin);
 
+    /* Peripheral DMA DeInit*/
+    HAL_DMA_DeInit(hi2c->hdmarx);
   /* USER CODE BEGIN I2C1_MspDeInit 1 */
 
   /* USER CODE END I2C1_MspDeInit 1 */
@@ -158,8 +193,10 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
     PB10     ------> I2C2_SCL
     PB11     ------> I2C2_SDA 
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_10|GPIO_PIN_11);
+    HAL_GPIO_DeInit(GPIOB, JY61_SCL_Pin|JY61_SDA_Pin);
 
+    /* Peripheral DMA DeInit*/
+    HAL_DMA_DeInit(hi2c->hdmarx);
   /* USER CODE BEGIN I2C2_MspDeInit 1 */
 
   /* USER CODE END I2C2_MspDeInit 1 */

@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.c
+  * File Name          : TIM.h
   * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  *                      of the TIM instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -31,51 +31,36 @@
   *
   ******************************************************************************
   */
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __tim_H
+#define __tim_H
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "gpio.h"
-/* USER CODE BEGIN 0 */
+#include "stm32f1xx_hal.h"
 
-/* USER CODE END 0 */
+/* USER CODE BEGIN Includes */
 
-/*----------------------------------------------------------------------------*/
-/* Configure GPIO                                                             */
-/*----------------------------------------------------------------------------*/
-/* USER CODE BEGIN 1 */
+/* USER CODE END Includes */
 
-/* USER CODE END 1 */
+extern TIM_HandleTypeDef htim2;
 
-/** Configure pins as 
-        * Analog 
-        * Input 
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
-void MX_GPIO_Init(void)
-{
+/* USER CODE BEGIN Private defines */
 
-  GPIO_InitTypeDef GPIO_InitStruct;
+/* USER CODE END Private defines */
 
-  /* GPIO Ports Clock Enable */
-  __GPIOD_CLK_ENABLE();
-  __GPIOA_CLK_ENABLE();
-  __GPIOB_CLK_ENABLE();
+void MX_TIM2_Init(void);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(MotorBit_GPIO_Port, MotorBit_Pin, GPIO_PIN_RESET);
+/* USER CODE BEGIN Prototypes */
 
-  /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = MotorBit_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  HAL_GPIO_Init(MotorBit_GPIO_Port, &GPIO_InitStruct);
+/* USER CODE END Prototypes */
 
+#ifdef __cplusplus
 }
-
-/* USER CODE BEGIN 2 */
-
-/* USER CODE END 2 */
+#endif
+#endif /*__ tim_H */
 
 /**
   * @}
