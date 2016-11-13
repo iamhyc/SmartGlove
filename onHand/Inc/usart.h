@@ -40,6 +40,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
+#include "main.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -50,6 +51,8 @@ extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
+
+extern void Error_Handler(void);
 
 void MX_USART1_UART_Init(void);
 

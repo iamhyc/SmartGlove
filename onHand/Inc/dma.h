@@ -41,8 +41,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
+#include "main.h"
 
 /* DMA memory to memory transfer handles -------------------------------------*/
+extern void Error_Handler(void);
 
 /* USER CODE BEGIN Includes */
 
