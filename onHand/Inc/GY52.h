@@ -3,6 +3,18 @@
 
 #include "stm32f1xx_hal.h"
 
+typedef struct
+{
+	uint16_t x, y, z;
+}DIM3_t;
+typedef struct
+{
+	DIM3_t Acc, Gryo;
+}GY52_Data_t;
+
+extern uint8_t GY52_pData[14];
+extern GY52_Data_t GY52_Data;
+
 #define GY52_ADDRESS_AD0_LOW     0x68 // address pin low (GND), default for InvenSense evaluation board
 #define GY52_ADDRESS_AD0_HIGH    0x69 // address pin high (VCC)
 #define GY52_DEFAULT_ADDRESS     GY52_ADDRESS_AD0_LOW
