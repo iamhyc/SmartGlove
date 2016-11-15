@@ -1,8 +1,7 @@
 /**
   ******************************************************************************
-  * File Name          : dma.h
-  * Description        : This file contains all the function prototypes for
-  *                      the dma.c file
+  * File Name          : main.h
+  * Description        : This file contains the common defines of the application
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -32,42 +31,57 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __dma_H
-#define __dma_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f1xx_hal.h"
-#include "main.h"
-
-/* DMA memory to memory transfer handles -------------------------------------*/
-extern void Error_Handler(void);
+#ifndef __MAIN_H
+#define __MAIN_H
+  /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
+/* Private define ------------------------------------------------------------*/
+
+#define Thumb_upper_Pin GPIO_PIN_0
+#define Thumb_upper_GPIO_Port GPIOA
+#define Index_upper_Pin GPIO_PIN_1
+#define Index_upper_GPIO_Port GPIOA
+#define Middle_upper_Pin GPIO_PIN_2
+#define Middle_upper_GPIO_Port GPIOA
+#define Ring_Upper_Pin GPIO_PIN_3
+#define Ring_Upper_GPIO_Port GPIOA
+#define Little_Upper_Pin GPIO_PIN_4
+#define Little_Upper_GPIO_Port GPIOA
+#define Thumb_lower_Pin GPIO_PIN_5
+#define Thumb_lower_GPIO_Port GPIOA
+#define Index_Lower_Pin GPIO_PIN_6
+#define Index_Lower_GPIO_Port GPIOA
+#define Middle_lower_Pin GPIO_PIN_7
+#define Middle_lower_GPIO_Port GPIOA
+#define Ring_lower_Pin GPIO_PIN_0
+#define Ring_lower_GPIO_Port GPIOB
+#define Little_lower_Pin GPIO_PIN_1
+#define Little_lower_GPIO_Port GPIOB
+#define MotorBit_Pin GPIO_PIN_2
+#define MotorBit_GPIO_Port GPIOB
+#define JY61_SCL_Pin GPIO_PIN_10
+#define JY61_SCL_GPIO_Port GPIOB
+#define JY61_SDA_Pin GPIO_PIN_11
+#define JY61_SDA_GPIO_Port GPIOB
+#define GY52_SCL_Pin GPIO_PIN_6
+#define GY52_SCL_GPIO_Port GPIOB
+#define GY52_SDA_Pin GPIO_PIN_7
+#define GY52_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_DMA_Init(void);
-
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* __dma_H */
+/**
+  * @}
+  */ 
 
 /**
   * @}
-  */
+*/ 
 
+#endif /* __MAIN_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
