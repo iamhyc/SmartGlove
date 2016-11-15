@@ -2,7 +2,7 @@ onhand\i2c.o: ../Src/i2c.c
 onhand\i2c.o: ../Inc/i2c.h
 onhand\i2c.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 onhand\i2c.o: ../Inc/stm32f1xx_hal_conf.h
-onhand\i2c.o: ../Inc/mxconstants.h
+onhand\i2c.o: ../Inc/main.h
 onhand\i2c.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
 onhand\i2c.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 onhand\i2c.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h

@@ -9,6 +9,7 @@
 "onhand\usart.o"
 "onhand\i2c.o"
 "onhand\tim.o"
+"onhand\gy52.o"
 "onhand\system_stm32f1xx.o"
 "onhand\startup_stm32f103xb.o"
 "onhand\stm32f1xx_hal.o"

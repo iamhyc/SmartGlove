@@ -2,7 +2,7 @@ onhand\crc.o: ../Src/crc.c
 onhand\crc.o: ../Inc/crc.h
 onhand\crc.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 onhand\crc.o: ../Inc/stm32f1xx_hal_conf.h
-onhand\crc.o: ../Inc/mxconstants.h
+onhand\crc.o: ../Inc/main.h
 onhand\crc.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
 onhand\crc.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 onhand\crc.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h

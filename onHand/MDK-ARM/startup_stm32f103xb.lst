@@ -4,12 +4,12 @@
 ARM Macro Assembler    Page 1 
 
 
-    1 00000000         ;******************** (C) COPYRIGHT 2015 STMicroelectron
+    1 00000000         ;******************** (C) COPYRIGHT 2016 STMicroelectron
                        ics ********************
     2 00000000         ;* File Name          : startup_stm32f103xb.s
     3 00000000         ;* Author             : MCD Application Team
-    4 00000000         ;* Version            : V4.0.2
-    5 00000000         ;* Date               : 18-December-2015
+    4 00000000         ;* Version            : V4.1.0
+    5 00000000         ;* Date               : 29-April-2016
     6 00000000         ;* Description        : STM32F103xB Devices vector table
                         for MDK-ARM toolchain. 
     7 00000000         ;*                      This module performs:
@@ -29,7 +29,7 @@ ARM Macro Assembler    Page 1
    16 00000000         ;*******************************************************
                        *************************
    17 00000000         ;*
-   18 00000000         ;* COPYRIGHT(c) 2015 STMicroelectronics
+   18 00000000         ;* COPYRIGHT(c) 2016 STMicroelectronics
    19 00000000         ;*
    20 00000000         ;* Redistribution and use in source and binary forms, wi
                        th or without modification,
@@ -497,10 +497,11 @@ ARM Macro Assembler    Page 8
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=onhand\startup_stm32f103xb.d -oonhand\startup_stm32f103xb.o -IC:\U
 sers\iamhy_000\Documents\GitHub\SmartGlove\onHand\MDK-ARM\RTE -IC:\Keil_v5\ARM\
-PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0
-.0\Device\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" -
--predefine="__UVISION_VERSION SETA 517" --predefine="_RTE_ SETA 1" --predefine=
-"STM32F10X_MD SETA 1" --list=startup_stm32f103xb.lst startup_stm32f103xb.s
+PACK\ARM\CMSIS\5.0.0-Beta12\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_
+DFP\2.0.0\Device\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SE
+TA 1" --predefine="__UVISION_VERSION SETA 521" --predefine="_RTE_ SETA 1" --pre
+define="STM32F10X_MD SETA 1" --list=startup_stm32f103xb.lst startup_stm32f103xb
+.s
 
 
 

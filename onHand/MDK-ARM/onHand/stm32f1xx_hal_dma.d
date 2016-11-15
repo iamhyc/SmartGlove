@@ -1,7 +1,7 @@
 onhand\stm32f1xx_hal_dma.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c
 onhand\stm32f1xx_hal_dma.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 onhand\stm32f1xx_hal_dma.o: ../Inc/stm32f1xx_hal_conf.h
-onhand\stm32f1xx_hal_dma.o: ../Inc/mxconstants.h
+onhand\stm32f1xx_hal_dma.o: ../Inc/main.h
 onhand\stm32f1xx_hal_dma.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
 onhand\stm32f1xx_hal_dma.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 onhand\stm32f1xx_hal_dma.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h

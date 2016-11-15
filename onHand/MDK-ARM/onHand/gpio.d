@@ -2,7 +2,7 @@ onhand\gpio.o: ../Src/gpio.c
 onhand\gpio.o: ../Inc/gpio.h
 onhand\gpio.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 onhand\gpio.o: ../Inc/stm32f1xx_hal_conf.h
-onhand\gpio.o: ../Inc/mxconstants.h
+onhand\gpio.o: ../Inc/main.h
 onhand\gpio.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
 onhand\gpio.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 onhand\gpio.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h

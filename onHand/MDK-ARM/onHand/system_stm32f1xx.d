@@ -9,7 +9,7 @@ onhand\system_stm32f1xx.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_
 onhand\system_stm32f1xx.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 onhand\system_stm32f1xx.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 onhand\system_stm32f1xx.o: ../Inc/stm32f1xx_hal_conf.h
-onhand\system_stm32f1xx.o: ../Inc/mxconstants.h
+onhand\system_stm32f1xx.o: ../Inc/main.h
 onhand\system_stm32f1xx.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
 onhand\system_stm32f1xx.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 onhand\system_stm32f1xx.o: C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
