@@ -92,7 +92,7 @@ int main(void)
   MX_TIM2_Init();
 
   /* USER CODE BEGIN 2 */
-
+	//Init
   /* USER CODE END 2 */
 
   /* Infinite loop */

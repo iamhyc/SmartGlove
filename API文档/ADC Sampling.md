@@ -6,7 +6,7 @@
 	
 因为使用ADC2的缘故，需要使用借用ADC1上的DMA传输数据；
 	
-数据在调用HAL_ADC_Start_DMA中会要求填充长度为5的u32数组
+数据在调用HAL\_ADC\_Start_DMA中会要求填充长度为5的u32数组
 	
 参数已配置完毕，非·连续模式规则组，每个channel 18us采样，可自行查看cubeMX配置
 
