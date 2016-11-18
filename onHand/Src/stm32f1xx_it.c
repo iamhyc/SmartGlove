@@ -34,7 +34,7 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
-
+#include "softconv.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -45,7 +45,13 @@ extern DMA_HandleTypeDef hdma_i2c1_rx;
 extern DMA_HandleTypeDef hdma_i2c2_rx;
 extern TIM_HandleTypeDef htim2;
 extern UART_HandleTypeDef huart1;
-
+extern uint32_t ADC_ConvertedValue[5];
+extern float ADC_ConvertedValue_AfterMapping[10];
+extern float ADC_ConvertedValue_Average[10];
+extern uint16_t times;
+extern uint16_t maxvalue;
+extern uint16_t minvalue;
+extern uint8_t ChNumber;
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
@@ -93,7 +99,8 @@ void DMA1_Channel1_IRQHandler(void)
 {
 	
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
-
+get_ADC_AverageValue(times,maxvalue, minvalue,ChNumber);
+	ADC_print();
   /* USER CODE END DMA1_Channel1_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_adc1);
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
