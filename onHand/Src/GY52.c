@@ -37,17 +37,16 @@ void setFullScaleAccelRange(uint8_t range) {
 	HAL_I2C_Mem_Write(&hi2c1, devAddr, GY52_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)data, 1, 10);
 }
 
-
 void GY52_Init()
 {
 	setClockSource(GY52_CLOCK_PLL_XGYRO);
-  setFullScaleGyroRange(GY52_GYRO_FS_2000);
-  setFullScaleAccelRange(GY52_ACCEL_FS_16);
+	setFullScaleGyroRange(GY52_GYRO_FS_2000);
+	setFullScaleAccelRange(GY52_ACCEL_FS_16);
 }
 
 void GY52_fetchData()
 {
-	HAL_I2C_Mem_Read_DMA(&hi2c1, devAddr, GY52_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, pData, 14);
+	HAL_I2C_Mem_Read_DMA(&hi2c1, devAddr, GY52_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, GY52_pData, 14);
 }
 
 void GY52_getAcc(float * ax, float* ay, float* az)
@@ -69,7 +68,7 @@ void GY52_getMotion6(uint16_t* ax, uint16_t* ay, uint16_t* az, uint16_t* gx, uin
 	*ax = GY52_Data.Acc.x;
 	*ay = GY52_Data.Acc.y;
 	*az = GY52_Data.Acc.z;
-	
+
 	*gx = GY52_Data.Gryo.x;
 	*gy = GY52_Data.Gryo.y;
 	*gz = GY52_Data.Gryo.z;
@@ -77,10 +76,12 @@ void GY52_getMotion6(uint16_t* ax, uint16_t* ay, uint16_t* az, uint16_t* gx, uin
 
 void GY52_print()
 {
-	unsigned char str[100];
+	unsigned char str[1000];
 	float ax, ay, az, gx, gy, gz;
+	
 	GY52_getAcc(&ax, &ay, &az);
 	GY52_getGryo(&gx, &gy, &gz);
-  sprintf((char *)str, "a:%.3f %.3f %.3f\nw:%.3f %.3f %.3f", ax, ay, az, gx, gy, gz);
+  	
+  	sprintf((char *)str, "a:%.3f %.3f %.3f\nw:%.3f %.3f %.3f", ax, ay, az, gx, gy, gz);
 	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
 }

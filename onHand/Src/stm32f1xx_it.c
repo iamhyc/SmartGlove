@@ -37,12 +37,15 @@
 
 /* USER CODE BEGIN 0 */
 #include "GY52.h"
+#include "JY61.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
 extern DMA_HandleTypeDef hdma_i2c1_rx;
+extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern DMA_HandleTypeDef hdma_i2c2_rx;
+extern DMA_HandleTypeDef hdma_i2c2_tx;
 extern TIM_HandleTypeDef htim2;
 extern UART_HandleTypeDef huart1;
 
@@ -101,17 +104,53 @@ void DMA1_Channel1_IRQHandler(void)
 }
 
 /**
+* @brief This function handles DMA1 channel4 global interrupt.
+*/
+void DMA1_Channel4_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel4_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c2_tx);
+  /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel4_IRQn 1 */
+}
+
+/**
 * @brief This function handles DMA1 channel5 global interrupt.
 */
 void DMA1_Channel5_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
-
+	//JY61
   /* USER CODE END DMA1_Channel5_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_i2c2_rx);
   /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
-
+	a[0] = (float)CharToShort(&chrTemp[0])/32768*16;
+	a[1] = (float)CharToShort(&chrTemp[2])/32768*16;
+	a[2] = (float)CharToShort(&chrTemp[4])/32768*16;
+	w[0] = (float)CharToShort(&chrTemp[6])/32768*2000;
+	w[1] = (float)CharToShort(&chrTemp[8])/32768*2000;
+	w[2] = (float)CharToShort(&chrTemp[10])/32768*2000;
+	Angle[0] = (float)CharToShort(&chrTemp[12])/32768*180;
+	Angle[1] = (float)CharToShort(&chrTemp[14])/32768*180;
+	Angle[2] = (float)CharToShort(&chrTemp[16])/32768*180;	
   /* USER CODE END DMA1_Channel5_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 channel6 global interrupt.
+*/
+void DMA1_Channel6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c1_tx);
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 1 */
 }
 
 /**
@@ -124,15 +163,13 @@ void DMA1_Channel7_IRQHandler(void)
   /* USER CODE END DMA1_Channel7_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_i2c1_rx);
   /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */
-
-	//This part for I2C RX Handler
+	//This part for I2C1 RX Handler
 	GY52_Data.Acc.x = (((int16_t)GY52_pData[0]) << 8) | GY52_pData[1];
-  GY52_Data.Acc.y = (((int16_t)GY52_pData[2]) << 8) | GY52_pData[3];
-  GY52_Data.Acc.z = (((int16_t)GY52_pData[4]) << 8) | GY52_pData[5];
-  GY52_Data.Gryo.x = (((int16_t)GY52_pData[8]) << 8) | GY52_pData[9];
-  GY52_Data.Gryo.y = (((int16_t)GY52_pData[10]) << 8) | GY52_pData[11];
-  GY52_Data.Gryo.z = (((int16_t)GY52_pData[12]) << 8) | GY52_pData[13];
-	
+	GY52_Data.Acc.y = (((int16_t)GY52_pData[2]) << 8) | GY52_pData[3];
+	GY52_Data.Acc.z = (((int16_t)GY52_pData[4]) << 8) | GY52_pData[5];
+	GY52_Data.Gryo.x = (((int16_t)GY52_pData[8]) << 8) | GY52_pData[9];
+	GY52_Data.Gryo.y = (((int16_t)GY52_pData[10]) << 8) | GY52_pData[11];
+	GY52_Data.Gryo.z = (((int16_t)GY52_pData[12]) << 8) | GY52_pData[13];
   /* USER CODE END DMA1_Channel7_IRQn 1 */
 }
 
