@@ -7,61 +7,68 @@
 const uint16_t ADC_MAX = 3000;
 const uint16_t ADC_MIN = 1000;
 
-uint16_t times = 0;
-uint8_t ChNumber = 0;
-uint32_t ADC_ConvertedValue[5];
-float ADC_ConvertedValue_AfterMapping[10];
-float ADC_ConvertedValue_Average[10];
+uint32_t ADC_pData[5];
+uint16_t ADC_RawData[10];
+float ADC_realData[10];
+static float tmp;
 
-uint32_t *get_ADC(uint8_t ChNumber){
+float ADC_mappingData(uint16_t);
 
-//HAL_ADCEx_MultiModeConfigChannel(&hadc1, hadc2);  //Optionally,for devices with several ADC instances
- 
-	
+void ADC_Init()
+{
+	HAL_ADCEx_Calibration_Start(&hadc1);
+	HAL_ADCEx_Calibration_Start(&hadc2);
+}
+
+void ADC_fetchData(){
 	HAL_ADC_Start(&hadc2);//  Activate the ADC peripheral (slave) and start conversions
-	HAL_ADCEx_MultiModeStart_DMA(&hadc1,ADC_ConvertedValue,ChNumber);//Activate the ADC peripheral (master) and start conversions
+	HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_pData, 5);//Activate the ADC peripheral (master) and start conversions
+}
+
+void ADC_conveyData()
+{
+	for(int i = 0; i < 5; i++)
+	{
+		ADC_RawData[i] = ADC_pData[i] & 0x0F;
+		ADC_RawData[i+1] = (ADC_pData[i] >> 16) & 0x0F;
+	}
 	
-	return ADC_ConvertedValue;
-
-
-	//Conversion results are automatically transferred by DMA into destination variable address.	
-	//HAL_ADCEx_MultiModeStop_DMA() //Stop conversion and disable the ADC peripheral (master)
-	//HAL_ADC_Stop_IT()//Stop conversion and disable the ADC peripheral (master)
-}
-
-float *mapping_ADC(uint8_t ChNumber){
-	  get_ADC(ChNumber);
-		float slope = 90/(ADC_MAX - ADC_MIN);
-		float offset =90* ADC_MAX/(ADC_MIN - ADC_MAX);
-		for(int i;i<5;i++){
-			ADC_ConvertedValue_AfterMapping[2*i] = slope*(ADC_ConvertedValue[i]>>16)+offset;
-			ADC_ConvertedValue_AfterMapping[2*i+1] = slope*((uint16_t)(ADC_ConvertedValue[i]&0xffff))+offset;
+	#ifdef ADC_FILTTERING
+		for(int i = 0; i < 10; i++)
+		{
+			tmp = ADC_mappingData(ADC_RawData[i]);
+			ADC_realData[i] = (1-ADC_FILTER_ALPHA) * ADC_realData[i] \
+													+ ADC_FILTER_ALPHA * tmp;
 		}
-
-		return ADC_ConvertedValue_AfterMapping;
+	#else
+		for(int i = 0; i < 10; i++)
+		{
+			ADC_realData[i] = ADC_mappingData(ADC_RawData[i]);
+		}
+	#endif
 }
 
-
-
-float *get_ADC_AverageValue(uint16_t times, uint8_t ChNumber){
-		uint8_t weight = 0;
-		mapping_ADC(ChNumber);
-	  *ADC_ConvertedValue_Average = *ADC_ConvertedValue_AfterMapping;
-		for(int i;i<times-1;i++){
-				mapping_ADC(ChNumber);
-				for(int m;m<10;m++)
-					ADC_ConvertedValue_Average[m]=weight*ADC_ConvertedValue_Average[i]+(1-weight)*ADC_ConvertedValue_AfterMapping[i];			
-		}	
-		return ADC_ConvertedValue_Average;
+float ADC_mappingData(uint16_t data)
+{
+	float tmp = (float)(data / (ADC_MAX - ADC_MIN) * 90);
+	return (tmp>90?90:tmp);
 }
 
+float ADC_getChannel(int channel)
+{
+	return ADC_realData[channel];
+}
 
+float *ADC_getAll(void)
+{
+	return ADC_realData;
+}
 
 void ADC_print(){
 	unsigned char str[200];
-	for(int i;i<10;i++)
+	for(int i = 0; i < 10; i++)
 	{
-		sprintf((char *)str, "%sChannel %d: %f\n", (char *)str, (i+1), ADC_ConvertedValue_Average[i]);
+		sprintf((char *)str, "%sChannel %d:%.3f\t", (char *)str, (i+1), ADC_realData[i]);
 	}
 	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
 }

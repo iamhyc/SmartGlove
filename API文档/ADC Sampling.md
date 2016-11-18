@@ -17,23 +17,26 @@
 
 ##Export
 
-+ **void ADC\_Start\_DMA(uint32\_t * pData)**
++ **void ADC\_Init(void)**
 
-	<font size=2>传入数组handler，软件触发一轮转换，DMA传输；
+	<font size=2>
+	(1) ADC calibration for both
+	</font>
+
++ **void ADC\_fetchData(void)**
+
+	<font size=2>软件触发一轮转换，DMA传输；
 	
 	在DMA中断中对数据处理（滤波），并填充数组/结构体
 	
 	注：这部分内容需参考DACEx文档部分（DAC Extension）</font>
 
-+ **void ADC\_Stop\_DMA(void)**
 
-	<font size=2>（**Deprecated**）</font>
-
-+ **uint16 ADC\_getChannel(int channel)**
++ **uint16\_t ADC\_getChannel(int channel)**
 
 	<font size=2>注意ADC2数据在32位数据的高16位</font>
 
-+ **(uint16 *) ADC\_getAll(void)**
++ **(float *) ADC\_getAll(void)**
 	
 	<font size=2>返回数据按照channel顺序排列，从IN0到IN9</font>
 

@@ -3,15 +3,18 @@
 
 #include "stm32f1xx_hal.h"
 
-extern uint32_t ADC_ConvertedValue[5];
-extern float ADC_ConvertedValue_AfterMapping[10];
-extern float ADC_ConvertedValue_Average[10];
-extern uint16_t times;
-extern uint8_t ChNumber;
+extern uint16_t ADC_RawData[10];
+extern float ADC_realData[10];
 
-uint32_t * get_ADC(uint8_t ChNumber);
-float * mapping_ADC(uint8_t ChNumber);
-float * get_ADC_AverageValue(uint16_t times, uint8_t ChNumber);
+#define ADC_FILTTERING 1
+#define ADC_FILTER_ALPHA 0.5
+
+void ADC_Init(void);
+void ADC_fetchData(void);
+void ADC_conveyData(void);
+float ADC_getChannel(int channel);
+float *ADC_getAll(void);
+
 void ADC_print(void);
 
 #endif
