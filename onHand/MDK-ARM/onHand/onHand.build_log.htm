@@ -3,81 +3,150 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.17.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Mark Hong, SUSTC, LIC=----
+IDE-Version: ¦ÌVision V5.20.0.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Drager Wan, SUSTech, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.17
+Toolchain:       MDK-Lite  Version: 5.20
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 1 (build 61)
-Assembler:       Armasm.exe V5.06 update 1 (build 61)
-Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
-Library Manager: ArmAr.exe V5.06 update 1 (build 61)
-Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
-CPU DLL:         SARMCM3.DLL V5.17
-Dialog DLL:      DCM.DLL V1.13.4.0
+C Compiler:      Armcc.exe V5.06 update 2 (build 183)
+Assembler:       Armasm.exe V5.06 update 2 (build 183)
+Linker/Locator:  ArmLink.exe V5.06 update 2 (build 183)
+Library Manager: ArmAr.exe V5.06 update 2 (build 183)
+Hex Converter:   FromElf.exe V5.06 update 2 (build 183)
+CPU DLL:         SARMCM3.DLL V5.20
+Dialog DLL:      DCM.DLL V1.13.7.0
 Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
-Dialog DLL:      TCM.DLL V1.14.6.0
+Dialog DLL:      TCM.DLL V1.14.9.0
  
 <h2>Project:</h2>
-C:\Users\iamhy_000\Documents\GitHub\SmartGlove\onHand\MDK-ARM\onHand.uvprojx
-Project File Date:  11/13/2016
+G:\GitHub\SmartGlove\onHand\MDK-ARM\onHand.uvprojx
+Project File Date:  11/15/2016
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 2 (build 183)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'onHand'
 compiling adc.c...
+../Inc/adc.h(42): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/adc.c: 0 warnings, 1 error
 compiling stm32f1xx_it.c...
+../Src/stm32f1xx_it.c(34): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/stm32f1xx_it.c: 0 warnings, 1 error
 compiling gpio.c...
+../Inc/gpio.h(43): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/gpio.c: 0 warnings, 1 error
 compiling crc.c...
+../Inc/crc.h(42): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/crc.c: 0 warnings, 1 error
 compiling dma.c...
+../Inc/dma.h(43): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/dma.c: 0 warnings, 1 error
 compiling main.c...
+../Src/main.c(35): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/main.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_msp.c...
+../Src/stm32f1xx_hal_msp.c(35): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/stm32f1xx_hal_msp.c: 0 warnings, 1 error
 compiling usart.c...
+../Inc/usart.h(42): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/usart.c: 0 warnings, 1 error
 compiling i2c.c...
-assembling startup_stm32f103xb.s...
+../Inc/i2c.h(42): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/i2c.c: 0 warnings, 1 error
 compiling tim.c...
+../Inc/tim.h(42): error:  #5: cannot open source input file "stm32f1xx_hal.h": No such file or directory
+  #include "stm32f1xx_hal.h"
+../Src/tim.c: 0 warnings, 1 error
+compiling bluetooth.c...
+compiling motor.c...
+assembling startup_stm32f103xb.s...
 compiling system_stm32f1xx.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c: 0 warnings, 1 error
 compiling stm32f1xx_hal.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_pwr.c...
-compiling stm32f1xx_hal_adc_ex.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_i2c.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c: 0 warnings, 1 error
+compiling stm32f1xx_hal_adc_ex.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_crc.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_crc.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_crc.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_adc.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_uart.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_flash_ex.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_dma.c...
-compiling stm32f1xx_hal_rtc.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_rcc.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c: 0 warnings, 1 error
+compiling stm32f1xx_hal_rtc.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_rcc_ex.c...
-compiling stm32f1xx_hal_flash.c...
-compiling stm32f1xx_hal_gpio.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_tim.c...
-compiling stm32f1xx_hal_cortex.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c: 0 warnings, 1 error
+compiling stm32f1xx_hal_gpio.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c: 0 warnings, 1 error
+compiling stm32f1xx_hal_flash.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_tim_ex.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c: 0 warnings, 1 error
+compiling stm32f1xx_hal_cortex.c...
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c: 0 warnings, 1 error
 compiling stm32f1xx_hal_rtc_ex.c...
-linking...
-Program Size: Code=9016 RO-data=284 RW-data=16 ZI-data=1024  
-"onHand\onHand.axf" - 0 Error(s), 0 Warning(s).
+"no source": Error:  #5: cannot open source input file "C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.c": No such file or directory
+C:/Users/iamhy_000/STM32Cube/Repository/STM32Cube_FW_F1_V1.3.0/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.c: 0 warnings, 1 error
+"onHand\onHand.axf" - 10 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
-                ARM::CMSIS:CORE:4.3.0
+                http://www.keil.com/pack/ARM.CMSIS.5.0.0-Beta4.pack
+                ARM::CMSIS:CORE:5.0.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 4.3.0
+   * Component: CORE Version: 5.0.0
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\iamhy_000\Documents\GitHub\SmartGlove\onHand\MDK-ARM\RTE
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
-  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
+  G:\GitHub\SmartGlove\onHand\MDK-ARM\RTE
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0-Beta4\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:14
+   * Component: ARM::CMSIS:CORE:5.0.0
+Target not created.
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
