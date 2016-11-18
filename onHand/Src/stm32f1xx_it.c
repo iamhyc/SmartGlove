@@ -36,7 +36,7 @@
 #include "stm32f1xx_it.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "GY52.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -120,11 +120,19 @@ void DMA1_Channel5_IRQHandler(void)
 void DMA1_Channel7_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel7_IRQn 0 */
-
+	
   /* USER CODE END DMA1_Channel7_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_i2c1_rx);
   /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */
 
+	//This part for I2C RX Handler
+	GY52_Data.Acc.x = (((int16_t)GY52_pData[0]) << 8) | GY52_pData[1];
+  GY52_Data.Acc.y = (((int16_t)GY52_pData[2]) << 8) | GY52_pData[3];
+  GY52_Data.Acc.z = (((int16_t)GY52_pData[4]) << 8) | GY52_pData[5];
+  GY52_Data.Gryo.x = (((int16_t)GY52_pData[8]) << 8) | GY52_pData[9];
+  GY52_Data.Gryo.y = (((int16_t)GY52_pData[10]) << 8) | GY52_pData[11];
+  GY52_Data.Gryo.z = (((int16_t)GY52_pData[12]) << 8) | GY52_pData[13];
+	
   /* USER CODE END DMA1_Channel7_IRQn 1 */
 }
 
