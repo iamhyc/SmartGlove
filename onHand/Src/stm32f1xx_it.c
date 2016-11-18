@@ -34,24 +34,20 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
-#include "softconv.h"
-/* USER CODE BEGIN 0 */
 
+/* USER CODE BEGIN 0 */
+#include "softconv.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
 extern DMA_HandleTypeDef hdma_i2c1_rx;
+extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern DMA_HandleTypeDef hdma_i2c2_rx;
+extern DMA_HandleTypeDef hdma_i2c2_tx;
 extern TIM_HandleTypeDef htim2;
 extern UART_HandleTypeDef huart1;
-extern uint32_t ADC_ConvertedValue[5];
-extern float ADC_ConvertedValue_AfterMapping[10];
-extern float ADC_ConvertedValue_Average[10];
-extern uint16_t times;
-extern uint16_t maxvalue;
-extern uint16_t minvalue;
-extern uint8_t ChNumber;
+
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
@@ -97,7 +93,6 @@ void SysTick_Handler(void)
 */
 void DMA1_Channel1_IRQHandler(void)
 {
-	
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
 get_ADC_AverageValue(times,maxvalue, minvalue,ChNumber);
 	ADC_print();
@@ -106,6 +101,20 @@ get_ADC_AverageValue(times,maxvalue, minvalue,ChNumber);
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
 
   /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 channel4 global interrupt.
+*/
+void DMA1_Channel4_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel4_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c2_tx);
+  /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel4_IRQn 1 */
 }
 
 /**
@@ -120,6 +129,20 @@ void DMA1_Channel5_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
 
   /* USER CODE END DMA1_Channel5_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 channel6 global interrupt.
+*/
+void DMA1_Channel6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c1_tx);
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 1 */
 }
 
 /**

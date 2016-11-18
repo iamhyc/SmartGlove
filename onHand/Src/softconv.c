@@ -1,5 +1,5 @@
 #include "adc.h"
-
+#include "softconv.h"
 #include "gpio.h"
 
 uint32_t ADC_ConvertedValue[5];
@@ -27,8 +27,7 @@ float *mapping_ADC(float maxvalue, float minvalue,uint8_t ChNumber){
 	  get_ADC(ChNumber);
 		float slope = 90/(maxvalue-minvalue);
 		float offset =90*minvalue/(minvalue-maxvalue);
-		uint8_t i = 0;
-		for(i,i<5,i++){
+		for(int i;i<5;i++){
 			ADC_ConvertedValue_AfterMapping[2*i] = slope*(ADC_ConvertedValue[i]>>16)+offset;
 			ADC_ConvertedValue_AfterMapping[2*i+1] = slope*((uint16_t)(ADC_ConvertedValue[i]&0xffff))+offset;
 		}
@@ -39,14 +38,12 @@ float *mapping_ADC(float maxvalue, float minvalue,uint8_t ChNumber){
 
 
 float *get_ADC_AverageValue(uint16_t times,uint16_t maxvalue, uint16_t minvalue, uint8_t ChNumber){
-		uint8_t i = 0;
-		uint8_t m = 0;
 		uint8_t weight = 0;
 		mapping_ADC(maxvalue,minvalue,ChNumber);
 	  *ADC_ConvertedValue_Average = *ADC_ConvertedValue_AfterMapping;
-		for(i;i<times-1;i++){
+		for(int i;i<times-1;i++){
 				mapping_ADC(maxvalue,minvalue,ChNumber);
-				for(m;m<10;m++)
+				for(int m;m<10;m++)
 					ADC_ConvertedValue_Average[m]=weight*ADC_ConvertedValue_Average[i]+(1-weight)*ADC_ConvertedValue_AfterMapping[i];			
 		}	
 		return ADC_ConvertedValue_Average;
@@ -55,7 +52,6 @@ float *get_ADC_AverageValue(uint16_t times,uint16_t maxvalue, uint16_t minvalue,
 
 
 void ADC_print(){
-	uint8_t i = 0;
-	for(i;i<10;i++)
+	for(int i;i<10;i++)
 		printf("Channel,%f, %f",i+1,ADC_ConvertedValue_Average[i]);
 }
