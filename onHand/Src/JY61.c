@@ -1,8 +1,10 @@
 
-#include "i2c.h"
-#include "gpio.h"
-#include "REG.h"
 #include "JY61.h"
+#include "REG.h"
+#include "i2c.h"
+#include "usart.h"
+#include "gpio.h"
+
 
 float a[3],w[3],h[3],Angle[3];
 uint8_t chrTemp[18];
@@ -22,9 +24,10 @@ void JY61_getAngle(float *Anglex,float *Angley,float *Anglez)
 
 void Print()
 {
-	   unsigned char str[100];
-     sprintf((char*)str,"0x50:  a:%.3f %.3f %.3f w:%.3f %.3f %.3f  h:%.0f %.0f %.0f  Angle:%.3f %.3f %.3f \r\n",\
-			 a[0],a[1],a[2],w[0],w[1],w[2],h[0],h[1],h[2],Angle[0],Angle[1],Angle[2]);
+		unsigned char str[100];
+		sprintf((char*)str,"0x50:  a:%.3f %.3f %.3f w:%.3f %.3f %.3f  h:%.0f %.0f %.0f  Angle:%.3f %.3f %.3f \r\n",\
+			a[0],a[1],a[2],w[0],w[1],w[2],h[0],h[1],h[2],Angle[0],Angle[1],Angle[2]);
+		HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
 }
 
 void JY61_fetchData()

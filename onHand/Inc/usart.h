@@ -43,7 +43,7 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "String.h"
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart1;

@@ -3,8 +3,6 @@
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
-#include "String.h"
-#include <stdbool.h>
 
 uint8_t GY52_pData[14];
 GY52_Data_t GY52_Data = {0};
@@ -76,12 +74,12 @@ void GY52_getMotion6(uint16_t* ax, uint16_t* ay, uint16_t* az, uint16_t* gx, uin
 
 void GY52_print()
 {
-	unsigned char str[1000];
+	unsigned char str[200];
 	float ax, ay, az, gx, gy, gz;
 	
 	GY52_getAcc(&ax, &ay, &az);
 	GY52_getGryo(&gx, &gy, &gz);
   	
-  	sprintf((char *)str, "a:%.3f %.3f %.3f\nw:%.3f %.3f %.3f", ax, ay, az, gx, gy, gz);
+  sprintf((char *)str, "a:%.3f %.3f %.3f\nw:%.3f %.3f %.3f", ax, ay, az, gx, gy, gz);
 	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
 }

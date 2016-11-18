@@ -97,8 +97,7 @@ void SysTick_Handler(void)
 void DMA1_Channel1_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
-get_ADC_AverageValue(times,maxvalue, minvalue,ChNumber);
-	ADC_print();
+	get_ADC_AverageValue(times, ChNumber);
   /* USER CODE END DMA1_Channel1_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_adc1);
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
