@@ -42,14 +42,17 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "softconv.h"
+#include "JY61.h"
+#include "GY52.h"
+#include "motor.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+const uint16_t pkt_size = 52;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,16 +61,48 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+char* floatEnconding(float);
+void onHandSystem_Init(void);
+void fetchData_Async(void);
+uint8_t* compressData(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
 
+char * floatEncoding(float data)
+{
+	return 0;
+}
+
+void onHandSystem_Init()
+{
+	ADC_Init();
+	GY52_Init();
+}
+
+void fetchData_Async()
+{
+	ADC_fetchData();//(float * )ADC_realData, 10
+	JY61_fetchData();//a[3],w[3],h[3],Angle[3]
+	GY52_fetchData();//GY52_Data_t GY52_Data
+}
+
+uint8_t* compressData(void)
+{
+	uint8_t * data;
+	return data;
+}
+
+void SamplingTrans()
+{
+	fetchData_Async();
+	uint8_t * pkt = compressData();
+	HAL_UART_Transmit_DMA(&huart1, pkt, pkt_size);
+}
 /* USER CODE END 0 */
 
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -92,7 +127,10 @@ int main(void)
   MX_TIM2_Init();
 
   /* USER CODE BEGIN 2 */
-	//Init
+		//Initialization
+		onHandSystem_Init();
+		HAL_Delay(200);
+		HAL_TIM_Base_Start(&htim2);//Main loop start
   /* USER CODE END 2 */
 
   /* Infinite loop */

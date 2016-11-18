@@ -1,11 +1,14 @@
 /**
   ******************************************************************************
-  * File Name          : dma.c
-  * Description        : This file provides code for the configuration
-  *                      of all the requested memory to memory DMA transfers.
+  * @file    system_stm32f10x.h
+  * @author  MCD Application Team
+  * @version V4.1.0
+  * @date    29-April-2016
+  * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer System Header File.
   ******************************************************************************
+  * @attention
   *
-  * COPYRIGHT(c) 2016 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -31,55 +34,83 @@
   *
   ******************************************************************************
   */
-/* Includes ------------------------------------------------------------------*/
-#include "dma.h"
 
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/*----------------------------------------------------------------------------*/
-/* Configure DMA                                                              */
-/*----------------------------------------------------------------------------*/
-
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */
-
-/** 
-  * Enable DMA controller clock
+/** @addtogroup CMSIS
+  * @{
   */
-void MX_DMA_Init(void) 
-{
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
 
-  /* DMA interrupt init */
-  /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 3, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-  /* DMA1_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 1, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
-  /* DMA1_Channel5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 2, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
-  /* DMA1_Channel7_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 2, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
+/** @addtogroup stm32f10x_system
+  * @{
+  */  
+  
+/**
+  * @brief Define to prevent recursive inclusion
+  */
+#ifndef __SYSTEM_STM32F10X_H
+#define __SYSTEM_STM32F10X_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif 
+
+/** @addtogroup STM32F10x_System_Includes
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+
+/** @addtogroup STM32F10x_System_Exported_types
+  * @{
+  */
+
+extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+extern const uint8_t  AHBPrescTable[16];  /*!< AHB prescalers table values */
+extern const uint8_t  APBPrescTable[8];   /*!< APB prescalers table values */
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F10x_System_Exported_Constants
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F10x_System_Exported_Macros
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F10x_System_Exported_Functions
+  * @{
+  */
+  
+extern void SystemInit(void);
+extern void SystemCoreClockUpdate(void);
+/**
+  * @}
+  */
+
+#ifdef __cplusplus
 }
+#endif
 
-/* USER CODE BEGIN 2 */
-
-/* USER CODE END 2 */
-
-/**
-  * @}
-  */
+#endif /*__SYSTEM_STM32F10X_H */
 
 /**
   * @}
   */
-
+  
+/**
+  * @}
+  */  
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

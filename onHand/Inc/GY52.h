@@ -370,7 +370,7 @@ extern GY52_Data_t GY52_Data;
 #define GY52_DMP_MEMORY_CHUNK_SIZE   16
 
 void GY52_Init(void);
-void GY52_requestData(void);
+void GY52_fetchData(void);
 void GY52_print(void);
 void GY52_getAcc(float * ax, float* ay, float* az);
 void GY52_getGryo(float* gx, float* gy, float* gz);

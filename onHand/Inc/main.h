@@ -72,7 +72,7 @@
 #define GY52_SDA_Pin GPIO_PIN_7
 #define GY52_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+void SamplingTrans(void);
 /* USER CODE END Private defines */
 
 /**

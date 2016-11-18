@@ -36,6 +36,7 @@
 #include "stm32f1xx_it.h"
 
 /* USER CODE BEGIN 0 */
+#include "main.h"
 #include "GY52.h"
 #include "JY61.h"
 #include "motor.h"
@@ -45,10 +46,9 @@
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
 extern DMA_HandleTypeDef hdma_i2c1_rx;
-extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern DMA_HandleTypeDef hdma_i2c2_rx;
-extern DMA_HandleTypeDef hdma_i2c2_tx;
 extern TIM_HandleTypeDef htim2;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef huart1;
 
 /******************************************************************************/
@@ -113,7 +113,7 @@ void DMA1_Channel4_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
 
   /* USER CODE END DMA1_Channel4_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_i2c2_tx);
+  HAL_DMA_IRQHandler(&hdma_usart1_tx);
   /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
 
   /* USER CODE END DMA1_Channel4_IRQn 1 */
@@ -139,20 +139,6 @@ void DMA1_Channel5_IRQHandler(void)
 	Angle[1] = (float)CharToShort(&chrTemp[14])/32768*180;
 	Angle[2] = (float)CharToShort(&chrTemp[16])/32768*180;	
   /* USER CODE END DMA1_Channel5_IRQn 1 */
-}
-
-/**
-* @brief This function handles DMA1 channel6 global interrupt.
-*/
-void DMA1_Channel6_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
-
-  /* USER CODE END DMA1_Channel6_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_i2c1_tx);
-  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel6_IRQn 1 */
 }
 
 /**
@@ -205,14 +191,13 @@ void USART1_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 /**
-* @brief This function handles TIM OC Event
+* @brief This function handles TIM Update Event
 */
-void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if (htim == &htim2 && htim2.Channel == HAL_TIM_ACTIVE_CHANNEL_1)
+	if (htim == &htim2)//200Hz
 	{
-		HAL_TIM_OC_Stop(&htim2,TIM_CHANNEL_1);
-		Motor_Stop();
+		SamplingTrans();
 	}
 }
 /* USER CODE END 1 */
