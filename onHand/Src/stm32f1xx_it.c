@@ -38,6 +38,7 @@
 /* USER CODE BEGIN 0 */
 #include "GY52.h"
 #include "JY61.h"
+#include "motor.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -179,9 +180,7 @@ void DMA1_Channel7_IRQHandler(void)
 void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
-	if(Motor_Count >= 0){
-		Motor_Count++;
-	}
+
   /* USER CODE END TIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
@@ -204,6 +203,16 @@ void USART1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+/**
+* @brief This function handles TIM OC Event
+*/
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim == &htim2 && htim2.Channel == HAL_TIM_ACTIVE_CHANNEL_1)
+	{
+		HAL_TIM_OC_Stop(&htim2,TIM_CHANNEL_1);
+		Motor_Stop();
+	}
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
