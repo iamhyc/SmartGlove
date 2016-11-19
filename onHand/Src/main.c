@@ -90,16 +90,24 @@ void onHandSystem_Init()
 void fetchData_Async()
 {
 	ADC_fetchData();//(float * )ADC_realData, 10
-	JY61_fetchData();//a[3],w[3],h[3],Angle[3]
+	JY61_fetchData();//JY61_Data_t JY61_Data
 	GY52_fetchData();//GY52_Data_t GY52_Data
 }
 
 uint8_t* compressData(void)
 {
-	float *ADC_data = ADC_getAll();
-	
-	
 	uint8_t * data;
+	float *ADC_data;
+	float JY61_data[9] = {0};
+	float GY52_data[6] = {0};
+	
+	ADC_data = ADC_getAll();
+	JY61_getAcc(&JY61_data[0], &JY61_data[1], &JY61_data[2]);
+	JY61_getGryo(&JY61_data[3], &JY61_data[4], &JY61_data[5]);
+	JY61_getAngle(&JY61_data[6], &JY61_data[7], &JY61_data[8]);
+	GY52_getAcc(&GY52_data[0], &GY52_data[1], &GY52_data[2]);
+	GY52_getGryo(&GY52_data[3], &GY52_data[4], &GY52_data[5]);
+	
 	return data;
 }
 
