@@ -52,7 +52,9 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-const uint16_t pkt_size = 52;
+static uint16_t pkt_size = 72;
+static uint32_t seq = 0;
+uint8_t RX_pData[4];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -61,7 +63,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-uint16_t floatEnconding(float, char*);
+uint16_t floatEnconding(float, uint16_t, uint8_t*);
 void onHandSystem_Init(void);
 void fetchData_Async(void);
 uint8_t* compressData(void);
@@ -69,10 +71,26 @@ uint8_t* compressData(void);
 
 /* USER CODE BEGIN 0 */
 
-uint16_t floatEncoding(float raw, char* data)
+uint16_t floatEncoding(float raw, uint16_t type, uint8_t* data)
 {
+	uint8_t flag = 0;
+	uint16_t *t1, *t2, mask1, mask2;
+	mask1 = (1 << type) - 1;
+	mask2 = (1 << FLOAT_SIZE) - 1;
 	
-	return 0;
+	if(raw < 0)
+	{
+		raw = -raw;
+		flag = 1;
+	}
+	
+	*t1 = (uint16_t)raw & mask1;
+	*t2 = (uint16_t)((raw-(int)raw) * 1E3) & mask2;
+	
+	*data = ((*t1) << FLOAT_SIZE) & (*t2);
+	if(flag == 1)	
+		*data &= flag << (FLOAT_SIZE + type - 1);
+	return (FLOAT_SIZE + type);
 }
 
 void onHandSystem_Init()
@@ -85,28 +103,109 @@ void onHandSystem_Init()
 	HAL_Delay(3000);
 	//sensor carlibration stop
 	Motor_Hold(1000);
+	
+	HAL_UART_Receive_IT(&huart1, RX_pData, 4);//wait to wakeup by Host
 }
 
 void fetchData_Async()
 {
-	ADC_fetchData();//(float * )ADC_realData, 10
+	ADC_fetchData();//ADC_realData[10]
 	JY61_fetchData();//JY61_Data_t JY61_Data
 	GY52_fetchData();//GY52_Data_t GY52_Data
 }
 
 uint8_t* compressData(void)
 {
-	uint8_t * data;
-	float *ADC_data;
+	uint8_t *data = (uint8_t *)malloc(8 * pkt_size);
+	uint8_t *ptr, *tmp, size;
 	float JY61_data[9] = {0};
 	float GY52_data[6] = {0};
 	
-	ADC_data = ADC_getAll();
+	float *ADC_data = ADC_getAll();
 	JY61_getAcc(&JY61_data[0], &JY61_data[1], &JY61_data[2]);
 	JY61_getGryo(&JY61_data[3], &JY61_data[4], &JY61_data[5]);
 	JY61_getAngle(&JY61_data[6], &JY61_data[7], &JY61_data[8]);
 	GY52_getAcc(&GY52_data[0], &GY52_data[1], &GY52_data[2]);
 	GY52_getGryo(&GY52_data[3], &GY52_data[4], &GY52_data[5]);
+	
+
+	ptr = data;
+	//Add Header
+	uint32_t* Timestamp;
+	*Timestamp = HAL_GetTick();
+	memcpy(ptr, (uint8_t *)Timestamp, 4);	ptr += 4;
+	memcpy(ptr, (uint8_t *)seq, 4);				ptr += 4;
+	
+	//'A', for JY61.ACC, 3*(5+10)
+	*(ptr++) = (uint8_t)'A';
+	for (int i = 0; i < 3; i++)
+	{
+		size = floatEncoding(JY61_data[i], TYPE_SIGNED_5, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
+	
+	//'B', for JY61.GRYO, 3*(12+10)
+	*(ptr++) = (uint8_t)'B';
+	for (int i = 3; i < 6; i++)
+	{
+		size = floatEncoding(JY61_data[i], TYPE_SIGNED_12, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
+	
+	//'C', for JY61.ANGL, 3*(10+10)
+	*(ptr++) = (uint8_t)'C';
+	*(ptr++) = (uint8_t)'B';
+	for (int i = 6; i < 9; i++)
+	{
+		size = floatEncoding(JY61_data[i], TYPE_SIGNED_10, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
+	
+	//'D', for GY52.ACC, 3*(5+10)
+	*(ptr++) = (uint8_t)'D';
+	for (int i = 0; i < 3; i++)
+	{
+		size = floatEncoding(GY52_data[i], TYPE_SIGNED_5, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
+	
+	//'E', for GY52.GRYO, 3*(12+10)
+	*(ptr++) = (uint8_t)'E';
+	for (int i = 3; i < 6; i++)
+	{
+		size = floatEncoding(GY52_data[i], TYPE_SIGNED_12, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
+	
+	//'F', for ADC 1, 5*(7+10)
+	*(ptr++) = (uint8_t)'F';
+	for (int i = 0; i < 5; i++)
+	{
+		size = floatEncoding(ADC_realData[i], TYPE_UNSIGNED_7, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
+	
+	//'G', for ADC 2
+	*(ptr++) = (uint8_t)'G';
+	for (int i = 5; i < 10; i++)
+	{
+		size = floatEncoding(ADC_realData[i], TYPE_UNSIGNED_7, tmp);
+		size = ceil(size/8);
+		memcpy(ptr, tmp, size);	
+		ptr += size;
+	}
 	
 	return data;
 }
@@ -114,8 +213,9 @@ uint8_t* compressData(void)
 void SamplingTrans()
 {
 	fetchData_Async();
-	uint8_t * pkt = compressData();
+	uint8_t* pkt = compressData();
 	HAL_UART_Transmit_DMA(&huart1, pkt, pkt_size);
+	free(pkt);
 }
 /* USER CODE END 0 */
 
@@ -147,7 +247,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 		//Initialization
 		onHandSystem_Init();
-		HAL_TIM_Base_Start(&htim2);//Main loop start
+		
   /* USER CODE END 2 */
 
   /* Infinite loop */

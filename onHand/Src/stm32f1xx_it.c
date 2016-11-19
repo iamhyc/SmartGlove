@@ -41,6 +41,8 @@
 #include "JY61.h"
 #include "motor.h"
 #include "softconv.h"
+
+extern uint8_t RX_pData[4];
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -183,7 +185,7 @@ void TIM2_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+	
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
@@ -192,6 +194,7 @@ void USART1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+
 /**
 * @brief This function handles TIM Update Event
 */
@@ -200,6 +203,20 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim == &htim2)//200Hz
 	{
 		SamplingTrans();
+	}
+}
+
+/**
+* @brief This function handles UART1 Receive Event
+*/
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart == &huart1)//&& RX_pData=="hehe 1"
+	{
+		//ACK for Rx_pData
+		HAL_UART_Transmit(&huart1, (uint8_t *)"ACK", 4, -1);
+		//start the loop
+		HAL_TIM_Base_Start(&htim2);
 	}
 }
 /* USER CODE END 1 */

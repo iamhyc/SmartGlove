@@ -36,7 +36,8 @@
   /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
-
+#include <stdlib.h>
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
@@ -72,6 +73,18 @@
 #define GY52_SDA_Pin GPIO_PIN_7
 #define GY52_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
+#define DATA_SEGMENT_4	0x04
+#define DATA_SEGMENT_8	0x08
+#define DATA_SEGMENT_16	0x10
+
+#define FLOAT_SIZE				0x0A	//0.001
+#define	TYPE_SIGNED_5			0x05	//(-16, 16)
+#define TYPE_UNSIGNED_7		0x07	//(0, 90)
+#define TYPE_SIGNED_10		0x0A	//(-360, 360)
+#define TYPE_SIGNED_12		0x0C	//(-2000,2000)
+
+#define abs(a)(a>0?a:-a)
+
 void SamplingTrans(void);
 /* USER CODE END Private defines */
 
