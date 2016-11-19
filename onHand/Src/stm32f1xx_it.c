@@ -125,19 +125,21 @@ void DMA1_Channel4_IRQHandler(void)
 void DMA1_Channel5_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
-	//JY61
+
   /* USER CODE END DMA1_Channel5_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_i2c2_rx);
   /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
-	a[0] = (float)CharToShort(&chrTemp[0])/32768*16;
-	a[1] = (float)CharToShort(&chrTemp[2])/32768*16;
-	a[2] = (float)CharToShort(&chrTemp[4])/32768*16;
-	w[0] = (float)CharToShort(&chrTemp[6])/32768*2000;
-	w[1] = (float)CharToShort(&chrTemp[8])/32768*2000;
-	w[2] = (float)CharToShort(&chrTemp[10])/32768*2000;
-	Angle[0] = (float)CharToShort(&chrTemp[12])/32768*180;
-	Angle[1] = (float)CharToShort(&chrTemp[14])/32768*180;
-	Angle[2] = (float)CharToShort(&chrTemp[16])/32768*180;	
+	JY61_Data.Acc.x = (float)CharToShort(&chrTemp[0])/32768*16;
+	JY61_Data.Acc.y = (float)CharToShort(&chrTemp[2])/32768*16;
+	JY61_Data.Acc.z = (float)CharToShort(&chrTemp[4])/32768*16;
+	
+	JY61_Data.Gryo.x = (float)CharToShort(&chrTemp[6])/32768*2000;
+	JY61_Data.Gryo.y = (float)CharToShort(&chrTemp[8])/32768*2000;
+	JY61_Data.Gryo.z = (float)CharToShort(&chrTemp[10])/32768*2000;
+	
+	JY61_Data.Angl.x = (float)CharToShort(&chrTemp[12])/32768*180;
+	JY61_Data.Angl.y = (float)CharToShort(&chrTemp[14])/32768*180;
+	JY61_Data.Angl.z = (float)CharToShort(&chrTemp[16])/32768*180;	
   /* USER CODE END DMA1_Channel5_IRQn 1 */
 }
 

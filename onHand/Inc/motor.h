@@ -6,6 +6,7 @@
 
 void Motor_Start(void);
 void Motor_Stop(void);
-void Motor_On(int micro);
+void Motor_Hold(int);
+void Motor_On(int);
 
 #endif

@@ -5,29 +5,42 @@
 #include "usart.h"
 #include "gpio.h"
 
-
-float a[3],w[3],h[3],Angle[3];
+JY61_Data_t JY61_Data = {0};
 uint8_t chrTemp[18];
+
+short CharToShort(unsigned char cData[]);
+void ShortToChar(short sData,unsigned char cData[]);
 
 void JY61_getAcc(float *ax,float *ay,float *az)
 {
-	*ax = a[0]; *ay = a[1]; *az = a[2];
+	*ax = JY61_Data.Acc.x; 
+	*ay = JY61_Data.Acc.y; 
+	*az = JY61_Data.Acc.z;
 }
 void JY61_getGryo(float *wx,float *wy,float *wz)
 {
-	*wx = w[0]; *wy = w[1]; *wz = w[2];
+	*wx = JY61_Data.Gryo.x; 
+	*wy = JY61_Data.Gryo.y; 
+	*wz = JY61_Data.Gryo.z;
 }
 void JY61_getAngle(float *Anglex,float *Angley,float *Anglez)
 {
-	*Anglex = Angle[0]; *Angley = Angle[1]; *Anglez = Angle[2];
+	*Anglex = JY61_Data.Angl.x; 
+	*Angley = JY61_Data.Angl.y; 
+	*Anglez = JY61_Data.Angl.z;
 }
 
 void Print()
 {
-		unsigned char str[100];
-		sprintf((char*)str,"0x50:  a:%.3f %.3f %.3f w:%.3f %.3f %.3f  h:%.0f %.0f %.0f  Angle:%.3f %.3f %.3f \r\n",\
-			a[0],a[1],a[2],w[0],w[1],w[2],h[0],h[1],h[2],Angle[0],Angle[1],Angle[2]);
-		HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
+	float *ax, *ay, *az, *wx, *wy, *wz, *alx, *aly, *alz;
+	unsigned char str[100];
+	
+	JY61_getAcc(ax, ay, az);
+	JY61_getGryo(wx, wy, wz);
+	JY61_getAngle(alx, aly, alz);
+	sprintf((char*)str,"0x50:  a:%.3f %.3f %.3f; w:%.3f %.3f %.3f; Angle:%.3f %.3f %.3f; \r\n",\
+		*ax, *ay, *az, *wx, *wy, *wz, *alx, *aly, *alz);
+	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
 }
 
 void JY61_fetchData()

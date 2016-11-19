@@ -17,6 +17,13 @@ void Motor_Flip(void){
 		Motor_Start();
 }
 
+void Motor_Hold(int micro){
+	Motor_Stop();
+	Motor_Start();
+	HAL_Delay(micro);
+	Motor_Stop();
+}
+
 void Motor_On(int micro){
 	//htim2.Instance->CCR1 = micro * 1E3 -1;
 }

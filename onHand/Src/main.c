@@ -61,7 +61,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-char* floatEnconding(float);
+uint16_t floatEnconding(float, char*);
 void onHandSystem_Init(void);
 void fetchData_Async(void);
 uint8_t* compressData(void);
@@ -69,8 +69,9 @@ uint8_t* compressData(void);
 
 /* USER CODE BEGIN 0 */
 
-char * floatEncoding(float data)
+uint16_t floatEncoding(float raw, char* data)
 {
+	
 	return 0;
 }
 
@@ -78,6 +79,12 @@ void onHandSystem_Init()
 {
 	ADC_Init();
 	GY52_Init();
+	
+	Motor_Hold(1000);
+	//sensor carlibration start
+	HAL_Delay(3000);
+	//sensor carlibration stop
+	Motor_Hold(1000);
 }
 
 void fetchData_Async()
@@ -89,6 +96,9 @@ void fetchData_Async()
 
 uint8_t* compressData(void)
 {
+	float *ADC_data = ADC_getAll();
+	
+	
 	uint8_t * data;
 	return data;
 }
@@ -129,7 +139,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 		//Initialization
 		onHandSystem_Init();
-		HAL_Delay(200);
 		HAL_TIM_Base_Start(&htim2);//Main loop start
   /* USER CODE END 2 */
 

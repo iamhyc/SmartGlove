@@ -1,12 +1,8 @@
 #ifndef _GY52_H_
 #define _GY52_H_
 
-#include "stm32f1xx_hal.h"
+#include "libstruct.h"
 
-typedef struct
-{
-	uint16_t x, y, z;
-}DIM3_t;
 typedef struct
 {
 	DIM3_t Acc, Gryo;
