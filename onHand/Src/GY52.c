@@ -75,11 +75,11 @@ void GY52_getMotion6(uint16_t* ax, uint16_t* ay, uint16_t* az, uint16_t* gx, uin
 void GY52_print()
 {
 	unsigned char str[200];
-	float ax, ay, az, gx, gy, gz;
+	float a[3], w[3];
 	
-	GY52_getAcc(&ax, &ay, &az);
-	GY52_getGryo(&gx, &gy, &gz);
+	GY52_getAcc(&a[0], &a[1], &a[2]);
+	GY52_getGryo(&w[0], &w[1], &w[2]);
   	
-  sprintf((char *)str, "a:%.3f %.3f %.3f\nw:%.3f %.3f %.3f", ax, ay, az, gx, gy, gz);
+  sprintf((char *)str, "a:%.3f %.3f %.3f\nw:%.3f %.3f %.3f", a[0], a[1], a[2], w[0], w[1], w[2]);
 	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
 }

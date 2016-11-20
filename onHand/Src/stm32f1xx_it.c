@@ -214,7 +214,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	if (huart == &huart1)//&& RX_pData=="hehe 1"
 	{
 		//ACK for Rx_pData
-		HAL_UART_Transmit(&huart1, (uint8_t *)"ACK", 4, -1);
+		HAL_UART_Transmit(&huart1, (uint8_t *)"ACK", 3, -1);
 		//start the loop
 		HAL_TIM_Base_Start(&htim2);
 	}

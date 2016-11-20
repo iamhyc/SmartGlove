@@ -13,34 +13,34 @@ void ShortToChar(short sData,unsigned char cData[]);
 
 void JY61_getAcc(float *ax,float *ay,float *az)
 {
-	*ax = JY61_Data.Acc.x; 
-	*ay = JY61_Data.Acc.y; 
-	*az = JY61_Data.Acc.z;
+	*ax = (float)JY61_Data.Acc.x; 
+	*ay = (float)JY61_Data.Acc.y; 
+	*az = (float)JY61_Data.Acc.z;
 }
 void JY61_getGryo(float *wx,float *wy,float *wz)
 {
-	*wx = JY61_Data.Gryo.x; 
-	*wy = JY61_Data.Gryo.y; 
-	*wz = JY61_Data.Gryo.z;
+	*wx = (float)JY61_Data.Gryo.x; 
+	*wy = (float)JY61_Data.Gryo.y; 
+	*wz = (float)JY61_Data.Gryo.z;
 }
 void JY61_getAngle(float *Anglex,float *Angley,float *Anglez)
 {
-	*Anglex = JY61_Data.Angl.x; 
-	*Angley = JY61_Data.Angl.y; 
-	*Anglez = JY61_Data.Angl.z;
+	*Anglex = (float)JY61_Data.Angl.x; 
+	*Angley = (float)JY61_Data.Angl.y; 
+	*Anglez = (float)JY61_Data.Angl.z;
 }
 
-void Print()
+void JY61_Print()
 {
-	float *ax, *ay, *az, *wx, *wy, *wz, *alx, *aly, *alz;
-	unsigned char str[100];
+	float a[3], w[3], agl[3];
+	unsigned char str[200];
 	
-	JY61_getAcc(ax, ay, az);
-	JY61_getGryo(wx, wy, wz);
-	JY61_getAngle(alx, aly, alz);
+	JY61_getAcc(&a[0], &a[1], &a[2]);
+	JY61_getGryo(&w[0], &w[1], &w[2]);
+	JY61_getAngle(&agl[0], &agl[1], &agl[2]);
 	sprintf((char*)str,"0x50:  a:%.3f %.3f %.3f; w:%.3f %.3f %.3f; Angle:%.3f %.3f %.3f; \r\n",\
-		*ax, *ay, *az, *wx, *wy, *wz, *alx, *aly, *alz);
-	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
+		a[0], a[1], a[2], w[0], w[1], w[2], agl[0], agl[1], agl[2]);
+	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 500);
 }
 
 void JY61_fetchData()
