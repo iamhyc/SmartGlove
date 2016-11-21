@@ -42,6 +42,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+	//include all the functional head file
 #include "softconv.h"
 #include "JY61.h"
 #include "GY52.h"
@@ -52,9 +53,9 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-static uint16_t pkt_size = 72;
-static uint32_t seq = 0;
-uint8_t RX_pData[4];
+static uint16_t pkt_size = 72;//packet size defined in bytes;almost const(with FLOAT_SIZE= 0x0A)
+static uint32_t seq = 0;//HEADER{Timestamp, **seq**, data}
+uint8_t RX_pData[4];//Array used for receive packet from HOST;constant 4 bytes
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,6 +64,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
+	//predefined built-in function
 uint16_t floatEnconding(float, uint16_t, uint8_t*);
 void onHandSystem_Init(void);
 void fetchData_Async(void);
@@ -71,82 +73,138 @@ uint8_t* compressData(void);
 
 /* USER CODE BEGIN 0 */
 
+/**
+  * @brief  Encoding *float number* into *uint8*; \
+	* SignBit(len:1) + IntegerPart(len:*type*) + DecimalPart(len:FLOAT_SIZE) \
+	* THIS IS NOT COMPLEMENT CODING; E.g. -8.99945 --> 11000  11 1110 0111 (with TYPE_SIGNED_5)
+  * @param  raw, raw data with *float* format
+	*	@param  type, defined constatnt like TYPE_(UN)SIGNED_X in 'main.h'
+	* @param  *data, the Encoded data in (uint8_t) format to take back
+  * @retval uint16_t, the length of '*data' pointer(in bit)
+  */
 uint16_t floatEncoding(float raw, uint16_t type, uint8_t* data)
 {
 	uint8_t flag = 0;
 	uint16_t *t1, *t2, mask1, mask2;
-	mask1 = (1 << type) - 1;
-	mask2 = (1 << FLOAT_SIZE) - 1;
+	mask1 = (1 << type) - 1;//mask for IntegerPart
+	mask2 = (1 << FLOAT_SIZE) - 1;//mask for DecimalPart
 	
 	if(raw < 0)
 	{
-		raw = -raw;
-		flag = 1;
+		raw = -raw;//remove negative sign; THIS IS NOT COMPLEMENT CODING
+		flag = 1;//mark whether is negative
 	}
 	
-	*t1 = (uint16_t)raw & mask1;
-	*t2 = (uint16_t)((raw-(int)raw) * 1E3) & mask2;
+	*t1 = (uint16_t)raw & mask1;//with mask on IntegerPart(without sign), set other bit 0
+	*t2 = (uint16_t)((raw-(int)raw) * 1E3) & mask2;//with mask on DecimalPart, set other bit 0
 	
-	*data = ((*t1) << FLOAT_SIZE) & (*t2);
-	if(flag == 1)	
-		*data &= flag << (FLOAT_SIZE + type - 1);
-	return (FLOAT_SIZE + type);
+	*data = ((*t1) << FLOAT_SIZE) & (*t2);//addup the both part
+	if(flag == 1)	//negative number
+		*data &= flag << (FLOAT_SIZE + type - 1);//add sign on the first bit
+	return (FLOAT_SIZE + type);//return the length
 }
 
+/**
+  * @brief  This is the function firstly called by USER\
+	* to start the *procedure* of the system
+  * @param  none
+  * @retval none
+  */
 void onHandSystem_Init()
 {
+	//Init the sensor needed to init
 	ADC_Init();
 	GY52_Init();
 	
-	Motor_Hold(1000);
-	//sensor carlibration start
+	Motor_Hold(1000);//run in block-mode
+	//sensor carlibration start, not implemented
 	HAL_Delay(3000);
-	//sensor carlibration stop
-	Motor_Hold(1000);
+	//sensor carlibration stop, not implemented
+	Motor_Hold(1000);//run in block-mode
 	
 	HAL_UART_Receive_IT(&huart1, RX_pData, 4);//wait to wakeup by Host
 }
 
+/**
+  * @brief  This is the function invoking each sensor's \
+	* fetchData function to fetch data Asynchronous
+  * @param  none
+  * @retval none
+  */
 void fetchData_Async()
 {
-	ADC_fetchData();//ADC_realData[10]
-	JY61_fetchData();//JY61_Data_t JY61_Data
-	GY52_fetchData();//GY52_Data_t GY52_Data
+	ADC_fetchData();//fill in ADC_realData[10]
+	JY61_fetchData();//fill in JY61_Data_t JY61_Data
+	GY52_fetchData();//fill in GY52_Data_t GY52_Data
 }
 
+/**
+  * @brief  Building the packet; Calling 'floatEncoding' for each segment
+  * @param  none
+  * @retval (uint8_t *), the actual packet as the result
+  */
 uint8_t* compressData(void)
 {
-	uint8_t *data = (uint8_t *)malloc(8 * pkt_size);
-	uint8_t *ptr, *tmp, size;
+	uint8_t *data = (uint8_t *)malloc(8 * pkt_size);//allocate memory by user, so need 'free' it
+	uint8_t *ptr, *tmp, size;//index pointer; temp data generated; temp data length;
 	float JY61_data[9] = {0};
 	float GY52_data[6] = {0};
 	
+	//RETRIEVE *ADC* DATA(LOCAL from MEMORY)
 	float *ADC_data = ADC_getAll();
+	//RETRIEVE *JY61* DATA(LOCAL from MEMORY)
 	JY61_getAcc(&JY61_data[0], &JY61_data[1], &JY61_data[2]);
 	JY61_getGryo(&JY61_data[3], &JY61_data[4], &JY61_data[5]);
 	JY61_getAngle(&JY61_data[6], &JY61_data[7], &JY61_data[8]);
+	//RETRIEVE *GY52* DATA(LOCAL from MEMORY)
 	GY52_getAcc(&GY52_data[0], &GY52_data[1], &GY52_data[2]);
 	GY52_getGryo(&GY52_data[3], &GY52_data[4], &GY52_data[5]);
 	
-
+	//maintain *ptr as index pointer to TRAVERSE the packet size
 	ptr = data;
-	//Add Header
+	
+	/**
+  * @brief  Add HEADER
+	* STRUCTURE:[84 BYTES]
+	* |---------------------------|
+	* |					TimeStamp					|(4 bytes)
+	* |---------------------------|
+	* |					Sequnce No.				|(4 bytes)
+	* |---------------------------|
+	* |'A'|		JY61ACCX		|		JY61ACCY		|		JY61ACCZ		|(1+6 bytes)
+	* |---------------------------|
+	* |'B'|		JY61GRYX		|		JY61GRYY		|		JY61GRYZ		|(1+9 bytes)
+	* |---------------------------|
+	* |'C'|		JY61AGLX		|		JY61AGLY		|		JY61AGLZ		|(1+9 bytes)
+	* |---------------------------|
+	* |'D'|		GY52ACCX		|		GY52ACCY		|		GY52ACCZ		|(1+6 bytes)
+	* |---------------------------|
+	* |'E'|		GY52GRYX		|		GY52GRYY		|		GY52GRYZ		|(1+9 bytes)
+	* |---------------------------|
+	* |'F'|											ADC1 * 5									|(1+15 bytes)
+	* |---------------------------|
+	* |'G'|											ADC2 * 5									|(1+15 bytes)
+  */
 	uint32_t* Timestamp;
 	*Timestamp = HAL_GetTick();
 	memcpy(ptr, (uint8_t *)Timestamp, 4);	ptr += 4;
 	memcpy(ptr, (uint8_t *)seq, 4);				ptr += 4;
 	
-	//'A', for JY61.ACC, 3*(5+10)
+	/**
+  * 'A', for JY61.ACC, 3*(5+10)
+  */
 	*(ptr++) = (uint8_t)'A';
 	for (int i = 0; i < 3; i++)
 	{
 		size = floatEncoding(JY61_data[i], TYPE_SIGNED_5, tmp);
-		size = ceil(size/8);
-		memcpy(ptr, tmp, size);	
-		ptr += size;
+		size = ceil(size/8);//int bytes, to cover all the bits
+		memcpy(ptr, tmp, size);//copy the data from *tmp* to *ptr* with *size*
+		ptr += size;//pointer shift to next
 	}
 	
-	//'B', for JY61.GRYO, 3*(12+10)
+	/**
+  * 'B', for JY61.GRYO, 3*(12+10)
+  */
 	*(ptr++) = (uint8_t)'B';
 	for (int i = 3; i < 6; i++)
 	{
@@ -155,8 +213,10 @@ uint8_t* compressData(void)
 		memcpy(ptr, tmp, size);	
 		ptr += size;
 	}
-	
-	//'C', for JY61.ANGL, 3*(10+10)
+
+	/**
+  * 'C', for JY61.ANGL, 3*(10+10)
+  */
 	*(ptr++) = (uint8_t)'C';
 	*(ptr++) = (uint8_t)'B';
 	for (int i = 6; i < 9; i++)
@@ -167,7 +227,9 @@ uint8_t* compressData(void)
 		ptr += size;
 	}
 	
-	//'D', for GY52.ACC, 3*(5+10)
+	/**
+  * 'D', for GY52.ACC, 3*(5+10)
+  */
 	*(ptr++) = (uint8_t)'D';
 	for (int i = 0; i < 3; i++)
 	{
@@ -177,7 +239,9 @@ uint8_t* compressData(void)
 		ptr += size;
 	}
 	
-	//'E', for GY52.GRYO, 3*(12+10)
+	/**
+  * 'E', for GY52.GRYO, 3*(12+10)
+  */
 	*(ptr++) = (uint8_t)'E';
 	for (int i = 3; i < 6; i++)
 	{
@@ -187,7 +251,9 @@ uint8_t* compressData(void)
 		ptr += size;
 	}
 	
-	//'F', for ADC 1, 5*(7+10)
+	/**
+  * 'F', for ADC 1, 5*(7+10)
+  */
 	*(ptr++) = (uint8_t)'F';
 	for (int i = 0; i < 5; i++)
 	{
@@ -197,7 +263,9 @@ uint8_t* compressData(void)
 		ptr += size;
 	}
 	
-	//'G', for ADC 2
+	/**
+  * 'F', for ADC 2, 5*(7+10)
+  */
 	*(ptr++) = (uint8_t)'G';
 	for (int i = 5; i < 10; i++)
 	{
@@ -210,12 +278,17 @@ uint8_t* compressData(void)
 	return data;
 }
 
+/**
+  * @brief  This is the function called by interept with TIM2
+  * @param  none
+  * @retval none
+  */
 void SamplingTrans()
 {
-	fetchData_Async();
-	uint8_t* pkt = compressData();
-	HAL_UART_Transmit_DMA(&huart1, pkt, pkt_size);
-	free(pkt);
+	fetchData_Async();//call fetch data first
+	uint8_t* pkt = compressData();//compress the data LAST TIME fetched(most possiblly)
+	HAL_UART_Transmit_DMA(&huart1, pkt, pkt_size);//transmit the packet through DMA
+	free(pkt);//remember to free the allocate memory
 }
 /* USER CODE END 0 */
 
@@ -246,7 +319,7 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 		//Initialization
-		onHandSystem_Init();
+		onHandSystem_Init();//call procedure start
 		
   /* USER CODE END 2 */
 

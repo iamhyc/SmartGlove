@@ -36,7 +36,9 @@
   /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
+//include for 'malloc' and 'free' function;used for allocate address memory for pointer
 #include <stdlib.h>
+//include for math function;like 'ceil', 'abs', etc.
 #include <math.h>
 /* USER CODE END Includes */
 
@@ -73,18 +75,19 @@
 #define GY52_SDA_Pin GPIO_PIN_7
 #define GY52_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-#define DATA_SEGMENT_4	0x04
-#define DATA_SEGMENT_8	0x08
-#define DATA_SEGMENT_16	0x10
+#define DATA_SEGMENT_4	0x04//[not used]
+#define DATA_SEGMENT_8	0x08//[not used]
+#define DATA_SEGMENT_16	0x10//[not used]
 
-#define FLOAT_SIZE				0x0A	//0.001
-#define	TYPE_SIGNED_5			0x05	//(-16, 16)
-#define TYPE_UNSIGNED_7		0x07	//(0, 90)
-#define TYPE_SIGNED_10		0x0A	//(-360, 360)
-#define TYPE_SIGNED_12		0x0C	//(-2000,2000)
+#define FLOAT_SIZE				0x0A	//correspoding to 2^10, equals to 0.001
+#define	TYPE_SIGNED_5			0x05	//correspoding to 2^5, covers(-16, 16)
+#define TYPE_UNSIGNED_7		0x07	//correspoding to 2^7, covers(0, 90)
+#define TYPE_SIGNED_10		0x0A	//correspoding to 2^10, covers(-360, 360)
+#define TYPE_SIGNED_12		0x0C	//correspoding to 2^12, covers(-2000,2000)
 
+//define abs() function;[not used]
 #define abs(a)(a>0?a:-a)
-
+//function implented in 'main.c'
 void SamplingTrans(void);
 /* USER CODE END Private defines */
 
