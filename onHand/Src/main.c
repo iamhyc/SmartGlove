@@ -193,7 +193,7 @@ uint8_t* compressData(void)
 	/**
   * 'A', for JY61.ACC, 3*(5+10)
   */
-	*(ptr++) = (uint8_t)'A';
+	*(ptr++) = (uint8_t)'A';//add sign 'A', and shift the pointer to next place
 	for (int i = 0; i < 3; i++)
 	{
 		size = floatEncoding(JY61_data[i], TYPE_SIGNED_5, tmp);
@@ -218,7 +218,6 @@ uint8_t* compressData(void)
   * 'C', for JY61.ANGL, 3*(10+10)
   */
 	*(ptr++) = (uint8_t)'C';
-	*(ptr++) = (uint8_t)'B';
 	for (int i = 6; i < 9; i++)
 	{
 		size = floatEncoding(JY61_data[i], TYPE_SIGNED_10, tmp);
