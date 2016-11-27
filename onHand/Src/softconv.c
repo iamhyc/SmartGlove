@@ -7,8 +7,8 @@
 const uint16_t ADC_MAX = 3000;
 const uint16_t ADC_MIN = 1000;
 
-uint32_t ADC_pData[5];
-uint16_t ADC_RawData[10];
+uint32_t ADC_pData[10];
+__IO uint16_t ADC_RawData[10];
 float ADC_realData[10];
 static float tmp;
 
@@ -17,12 +17,10 @@ float ADC_mappingData(uint16_t);
 void ADC_Init()
 {
 	HAL_ADCEx_Calibration_Start(&hadc1);
-	HAL_ADCEx_Calibration_Start(&hadc2);
 }
 
 void ADC_fetchData(){
-	HAL_ADC_Start(&hadc2);//  Activate the ADC peripheral (slave) and start conversions
-	HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_pData, 5);//Activate the ADC peripheral (master) and start conversions
+	HAL_ADC_Start_DMA(&hadc1, ADC_pData, 10);//Activate the ADC peripheral (master) and start conversions
 }
 
 void ADC_conveyData()

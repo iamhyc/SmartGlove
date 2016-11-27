@@ -3,7 +3,7 @@
 
 #include "stm32f1xx_hal.h"
 
-extern uint16_t ADC_RawData[10];
+extern __IO uint16_t ADC_RawData[10];
 extern float ADC_realData[10];
 
 #define ADC_FILTTERING 1
