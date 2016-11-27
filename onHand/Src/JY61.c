@@ -46,7 +46,7 @@ void JY61_Print()
 void JY61_fetchData()
 {
 
-	  HAL_I2C_Mem_Read_DMA (&hi2c2, 0x50, AX, I2C_MEMADD_SIZE_8BIT, chrTemp, 18);
+	  HAL_I2C_Mem_Read_DMA (&hi2c2, (0x50<<1), AX, I2C_MEMADD_SIZE_8BIT, chrTemp, 18);
 	
 }
 void ShortToChar(short sData,unsigned char cData[])

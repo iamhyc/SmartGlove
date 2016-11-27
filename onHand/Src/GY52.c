@@ -7,19 +7,19 @@
 uint8_t GY52_pData[14];
 GY52_Data_t GY52_Data = {0};
 
-static uint8_t devAddr = GY52_DEFAULT_ADDRESS;
+static uint8_t devAddr = GY52_DEFAULT_ADDRESS<<1;
 
 uint8_t generateCode(uint8_t start_bit, uint8_t length, uint8_t data){
 	uint8_t mask = (0x01<<length) - 1;
 	data &= mask;
-	data <<= start_bit;
+	data <<= (start_bit-length+1);//according to RM
 	return data;
 }
 
 void setClockSource(uint8_t source) {
 	uint8_t *data;
 	*data = generateCode(GY52_PWR1_CLKSEL_BIT, GY52_PWR1_CLKSEL_LENGTH, source);
-	*data &= generateCode(GY52_PWR1_SLEEP_BIT, 1, 1);//enable sleep mode
+	*data &= generateCode(GY52_PWR1_SLEEP_BIT, 1, 0x01);//enable sleep mode
 	HAL_I2C_Mem_Write(&hi2c1, devAddr, GY52_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, (uint8_t *)data, 1, 10);
 }
 
