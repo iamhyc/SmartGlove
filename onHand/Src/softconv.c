@@ -29,8 +29,8 @@ void ADC_conveyData()
 {
 	for(int i = 0; i < 5; i++)
 	{
-		ADC_RawData[i] = ADC_pData[i] & 0x0F;
-		ADC_RawData[i+1] = (ADC_pData[i] >> 16) & 0x0F;
+		ADC_RawData[i] = ADC_pData[i] & 0xFFFF;
+		ADC_RawData[i+1] = (ADC_pData[i] >> 16) & 0xFFFF;
 	}
 	
 	#ifdef ADC_FILTTERING
@@ -50,8 +50,8 @@ void ADC_conveyData()
 
 float ADC_mappingData(uint16_t data)
 {
-	float tmp = (float)(data / (ADC_MAX - ADC_MIN) * 90);
-	return (tmp>90?90:tmp);
+	float tmp = (float)( (data - ADC_MIN) / (ADC_MAX - ADC_MIN) * 90);
+	return tmp;//(tmp>90?90:tmp);
 }
 
 float ADC_getChannel(int channel)
@@ -66,9 +66,12 @@ float *ADC_getAll(void)
 
 void ADC_print(){
 	unsigned char str[200];
-	for(int i = 0; i < 10; i++)
+	sprintf((char *)str, "%d\t%d\t%d\t%d\t%d\n%d\t%d\t%d\t%d\t%d\n", \
+					ADC_RawData[0], ADC_RawData[1], ADC_RawData[2], ADC_RawData[3], ADC_RawData[4], \
+					ADC_RawData[5], ADC_RawData[6], ADC_RawData[7], ADC_RawData[8], ADC_RawData[9]);
+	/*for(int i = 0; i < 10; i++)
 	{
 		sprintf((char *)str, "%sChannel %d:%.3f\t", (char *)str, (i+1), ADC_realData[i]);
-	}
-	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 5);
+	}*/
+	HAL_UART_Transmit(&huart1, str, strlen((char *)str), 500);
 }
