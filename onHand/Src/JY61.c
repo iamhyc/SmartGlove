@@ -6,27 +6,27 @@
 #include "gpio.h"
 
 JY61_Data_t JY61_Data = {0};
-uint8_t chrTemp[18];
+uint8_t chrTemp[24];
 
 short CharToShort(unsigned char cData[]);
 void ShortToChar(short sData,unsigned char cData[]);
 
 void JY61_getAcc(float *ax,float *ay,float *az)
 {
-	*ax = (float)JY61_Data.Acc.x; 
-	*ay = (float)JY61_Data.Acc.y; 
+	*ax = (float)JY61_Data.Acc.x;
+	*ay = (float)JY61_Data.Acc.y;
 	*az = (float)JY61_Data.Acc.z;
 }
 void JY61_getGryo(float *wx,float *wy,float *wz)
 {
-	*wx = (float)JY61_Data.Gryo.x; 
-	*wy = (float)JY61_Data.Gryo.y; 
+	*wx = (float)JY61_Data.Gryo.x;
+	*wy = (float)JY61_Data.Gryo.y;
 	*wz = (float)JY61_Data.Gryo.z;
 }
 void JY61_getAngle(float *Anglex,float *Angley,float *Anglez)
 {
-	*Anglex = (float)JY61_Data.Angl.x; 
-	*Angley = (float)JY61_Data.Angl.y; 
+	*Anglex = (float)JY61_Data.Angl.x;
+	*Angley = (float)JY61_Data.Angl.y;
 	*Anglez = (float)JY61_Data.Angl.z;
 }
 
@@ -45,10 +45,9 @@ void JY61_Print()
 
 void JY61_fetchData()
 {
-
-	  HAL_I2C_Mem_Read_DMA (&hi2c2, (0x50<<1), AX, I2C_MEMADD_SIZE_8BIT, chrTemp, 18);
-	
+	  HAL_I2C_Mem_Read_DMA(&hi2c2, (0x50<<1), AX, I2C_MEMADD_SIZE_8BIT, chrTemp, 24);
 }
+
 void ShortToChar(short sData,unsigned char cData[])
 {
 	cData[0]=sData&0xff;

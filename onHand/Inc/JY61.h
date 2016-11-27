@@ -10,7 +10,7 @@ typedef struct
 }JY61_Data_t;
 
 extern JY61_Data_t JY61_Data;
-extern uint8_t chrTemp[18];
+extern uint8_t chrTemp[24];
 
 void ShortToChar(short sData, unsigned char cData[]);
 short CharToShort(unsigned char cData[]);

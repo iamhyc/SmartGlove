@@ -139,9 +139,9 @@ void DMA1_Channel5_IRQHandler(void)
 	JY61_Data.Gryo.y = (float)CharToShort(&chrTemp[8])/32768*2000;
 	JY61_Data.Gryo.z = (float)CharToShort(&chrTemp[10])/32768*2000;
 	
-	JY61_Data.Angl.x = (float)CharToShort(&chrTemp[12])/32768*180;
-	JY61_Data.Angl.y = (float)CharToShort(&chrTemp[14])/32768*180;
-	JY61_Data.Angl.z = (float)CharToShort(&chrTemp[16])/32768*180;	
+	JY61_Data.Angl.x = (float)CharToShort(&chrTemp[18])/32768*180;
+	JY61_Data.Angl.y = (float)CharToShort(&chrTemp[20])/32768*180;
+	JY61_Data.Angl.z = (float)CharToShort(&chrTemp[22])/32768*180;	
   /* USER CODE END DMA1_Channel5_IRQn 1 */
 }
 
