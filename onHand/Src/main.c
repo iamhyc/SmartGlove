@@ -256,7 +256,7 @@ uint8_t* compressData(void)
 	*(ptr++) = (uint8_t)'F';
 	for (int i = 0; i < 5; i++)
 	{
-		size = floatEncoding(ADC_realData[i], TYPE_UNSIGNED_7, tmp);
+		size = floatEncoding(ADC_data[i], TYPE_UNSIGNED_7, tmp);
 		size = ceil(size/8);
 		memcpy(ptr, tmp, size);	
 		ptr += size;
@@ -268,7 +268,7 @@ uint8_t* compressData(void)
 	*(ptr++) = (uint8_t)'G';
 	for (int i = 5; i < 10; i++)
 	{
-		size = floatEncoding(ADC_realData[i], TYPE_UNSIGNED_7, tmp);
+		size = floatEncoding(ADC_data[i], TYPE_UNSIGNED_7, tmp);
 		size = ceil(size/8);
 		memcpy(ptr, tmp, size);	
 		ptr += size;
