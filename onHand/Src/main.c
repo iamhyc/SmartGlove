@@ -165,7 +165,9 @@ uint8_t* compressData(void)
 	
 	/**
   * @brief  Add HEADER
-	* STRUCTURE:[84 BYTES]
+	* STRUCTURE:[90 BYTES]
+	* |---------------------------|
+	* |					'LFT'/'RAT'				|(3 bytes)
 	* |---------------------------|
 	* |					TimeStamp					|(4 bytes)
 	* |---------------------------|
@@ -184,6 +186,9 @@ uint8_t* compressData(void)
 	* |'F'|											ADC1 * 5									|(1+15 bytes)
 	* |---------------------------|
 	* |'G'|											ADC2 * 5									|(1+15 bytes)
+	* |---------------------------|
+	* |					'END'							|(3 bytes)
+	* |---------------------------|
   */
 	uint32_t* Timestamp;
 	*Timestamp = HAL_GetTick();
