@@ -98,7 +98,7 @@ uint16_t floatEncoding(float raw, uint16_t type, uint8_t* data)
 	*t1 = (uint16_t)raw & mask1;//with mask on IntegerPart(without sign), set other bit 0
 	*t2 = (uint16_t)((raw-(int)raw) * 1E3) & mask2;//with mask on DecimalPart, set other bit 0
 	
-	*data = ((*t1) << FLOAT_SIZE) & (*t2);//addup the both part
+	*data = (uint8_t *)((*t1) << FLOAT_SIZE) & (*t2);//addup the both part
 	if(flag == 1)	//negative number
 		*data &= flag << (FLOAT_SIZE + type - 1);//add sign on the first bit
 	return (FLOAT_SIZE + type);//return the length
